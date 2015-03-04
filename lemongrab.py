@@ -25,8 +25,9 @@ def mock_list(name):
     }
 
 def api_route(f):
-    """Requires the requested content type to be JSON,
-    otherwise returns HTML response.
+    """
+    Requires the requested content type to be JSON,
+    otherwise returns the application response.
     """
     @functools.wraps(f)
     def wrapped_handler(*args, **kwargs):
