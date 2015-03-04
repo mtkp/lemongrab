@@ -40,7 +40,6 @@ def api_route(f):
 @app.route('/list/<listname>')
 @api_route
 def get_list(listname):
-    print request.headers['Content-Type']
     return json.jsonify(mock_list(listname))
 
 @app.route('/list/<listname>', methods=['POST'])
