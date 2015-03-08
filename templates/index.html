@@ -1,11 +1,20 @@
 <!doctype html>
-<title>Lemongrab</title>
 <html>
-<head>
-  <title></title>
-</head>
-<body>
-<h1>Lemongrab</h1>
-</body>
+  <head>
+    <meta charset="utf-8">
+    <title>Lemongrab</title>
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+  </head>
+  <body>
+    <header id="title">
+      <h1>Lemongrab</h1>
+      <p>An acceptable ToDo list app</p>
+    </header>
+    <section id="task-prompt">
+      <h2>What is there to do?</h2>
+      <input id="new-task" type="text">
+    </section>
+    <section id="task-list"></section>
+  </body>
 </html>
+
