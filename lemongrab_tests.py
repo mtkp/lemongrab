@@ -32,6 +32,15 @@ class LemongrabTestCase(unittest.TestCase):
         self.assertEqual('application/json', resp.mimetype)
         self.assertEqual(200, resp.status_code)
 
+    def test_put_empty_list(self):
+        resp = self.app.put(
+            path='/api/v1/list/test-list',
+            content_type='application/json',
+            data=json.dumps({'items': []})
+        )
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual('Saved "test-list"', resp.data)
+
     def test_put_new_list(self):
         data = json.dumps(
             {'items': [{'description': 'put_test', 'completed': True}]}
@@ -42,7 +51,7 @@ class LemongrabTestCase(unittest.TestCase):
             data=data
         )
         self.assertEqual(200, resp.status_code)
-        self.assertEqual('Saved "test-list"',resp.data)
+        self.assertEqual('Saved "test-list"', resp.data)
 
     def test_put_then_get_list(self):
         path = '/api/v1/list/test-list'
@@ -59,14 +68,31 @@ class LemongrabTestCase(unittest.TestCase):
         actual = json.loads(resp.data)
         self.assertEqual(expect, actual)
 
-    def test_put_empty_list(self):
-        resp = self.app.put(
-            path='/api/v1/list/test-list',
+    def test_put_and_get_multiple_lists(self):
+        put = partial(self.app.put, content_type='application/json')
+        make_path = lambda i: '/api/v1/list/test-list-{}'.format(i)
+        make_list = lambda i: \
+            {'items': [{'description': '{}'.format(i), 'completed': False}]}
+        for i in xrange(10):
+            put(path=make_path(i), data=json.dumps(make_list(i)))
+        for i in xrange(10):
+            expect = make_list(i)
+            actual = json.loads(self.app.get(make_path(i)).data)
+            self.assertEqual(expect, actual)
+
+    def test_put_replace_list(self):
+        path = '/api/v1/list/test-list'
+        put = partial(
+            self.app.put,
+            path=path,
             content_type='application/json',
-            data=json.dumps({'items': []})
         )
-        self.assertEqual(200, resp.status_code)
-        self.assertEqual('Saved "test-list"',resp.data)
+        lst = {'items': [{'description': 'put_replace', 'completed': False},]}
+        put(data=json.dumps(lst))
+        lst['items'][0]['completed'] = True
+        put(data=json.dumps(lst))
+        resp_list = json.loads(self.app.get(path).data)
+        self.assertTrue(resp_list['items'][0]['completed'])
 
     def test_put_with_bad_json_schema(self):
         put = partial(
@@ -74,12 +100,13 @@ class LemongrabTestCase(unittest.TestCase):
             path='/api/v1/list/test-list',
             content_type='application/json',
         )
-
         resp = put(data='{}')
         self.assertEqual(403, resp.status_code)
         resp = put(data='{"item": []}')
         self.assertEqual(403, resp.status_code)
         resp = put(data='{"items": [{"description":"test"}]}')
+        self.assertEqual(403, resp.status_code)
+        resp = put(data='{"items": [{"completed":true}]}')
         self.assertEqual(403, resp.status_code)
 
 if __name__ == '__main__':
