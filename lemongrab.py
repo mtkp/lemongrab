@@ -45,10 +45,16 @@ def load_app_with_list(listname):
     return load_app()
 
 def get(listname):
+    """
+    Get a list by listname.
+    """
     lst = {'items': data_store[listname]}
     return json.jsonify(lst)
 
 def put(listname):
+    """
+    Save a list by listname.
+    """
     lst = request.get_json()
     try:
         validate(lst, schema)
@@ -59,6 +65,9 @@ def put(listname):
 
 @app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
 def list_request(listname):
+    """
+    List resource method dispatcher.
+    """
     return {'GET': get,
             'PUT': put}.get(request.method)(listname)
 
