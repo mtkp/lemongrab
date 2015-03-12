@@ -1,52 +1,77 @@
 # lemongrab.py
-import functools
+from collections import defaultdict
 
 from flask import Flask, json, render_template, request
+from jsonschema import validate, ValidationError
 
+# define list schema
+schema = {
+    'type': 'object',
+    'properties': {
+        'items': {
+            'type': 'array',
+            'items': {
+                'type': 'object',
+                'properties': {
+                    'description': {'type': 'string'},
+                    'completed': {'type': 'boolean'},
+                },
+                'required': ['description', 'completed'],
+            },
+        },
+    },
+    'required': ['items'],
+}
+
+# initialize dummy in-memory data store
+data_store = defaultdict(list)
+
+# start the server
 app = Flask(__name__)
 app.debug = True
 
 @app.route('/')
 def load_app():
     """
-    Sends JS app to client.
+    Return the app to the client.
     """
     return render_template('index.html')
 
-def mock_list(name):
-    itm = lambda d, c: {'description': d, 'completed': c}
-    return {
-        'name': name,
-        'items': [
-            itm('Walk the dog first', True),
-            itm('Get haircut second', False),
-            itm('Groceries third', False),
-        ],
-    }
-
-def api_route(f):
-    """
-    Requires the requested content type to be JSON,
-    otherwise returns the application response.
-    """
-    @functools.wraps(f)
-    def wrapped_handler(*args, **kwargs):
-        if request.headers['Content-Type'] == 'application/json':
-            return f(*args, **kwargs)
-        else:
-            return load_app()
-    return wrapped_handler
-
 @app.route('/list/<listname>')
-@api_route
-def get_list(listname):
-    return json.jsonify(mock_list(listname))
+def load_app_with_list(listname):
+    """
+    Return the app, let the app read the resource
+    from the URI and make a separate API request.
+    """
+    return load_app()
 
-@app.route('/list/<listname>', methods=['POST'])
-@api_route
-def save_list(listname):
-    print 'Saving "%s"' % request.get_json()
-    return 'Saved "%s"' % listname
+def get(listname):
+    """
+    Get a list by listname.
+    """
+    lst = {'items': data_store[listname]}
+    return json.jsonify(lst)
+
+def put(listname):
+    """
+    Save a list by listname.
+    """
+    lst = request.get_json()
+    try:
+        validate(lst, schema)
+    except ValidationError:
+        return 'Invalid JSON schema', 403
+    data_store[listname] = lst['items']
+    return 'Saved "{}"'.format(listname)
+
+
+@app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
+def list_request(listname):
+    """
+    List resource method dispatcher.
+    """
+    return {'GET': get,
+            'PUT': put}.get(request.method)(listname)
 
 if __name__ == '__main__':
     app.run()
