@@ -1,6 +1,4 @@
 # lemongrab.py
-import functools
-
 from flask import Flask, json, render_template, request
 
 app = Flask(__name__)
@@ -9,9 +7,17 @@ app.debug = True
 @app.route('/')
 def load_app():
     """
-    Sends JS app to client.
+    Return the app to the client.
     """
     return render_template('index.html')
+
+@app.route('/list/<listname>')
+def load_app_with_list(listname):
+    """
+    Return the app, let the app read the resource
+    from the URI and make a separate API request.
+    """
+    return load_app()
 
 def mock_list(name):
     itm = lambda d, c: {'description': d, 'completed': c}
@@ -24,29 +30,17 @@ def mock_list(name):
         ],
     }
 
-def api_route(f):
-    """
-    Requires the requested content type to be JSON,
-    otherwise returns the application response.
-    """
-    @functools.wraps(f)
-    def wrapped_handler(*args, **kwargs):
-        if request.headers['Content-Type'] == 'application/json':
-            return f(*args, **kwargs)
-        else:
-            return load_app()
-    return wrapped_handler
-
-@app.route('/list/<listname>')
-@api_route
-def get_list(listname):
+def get(listname):
     return json.jsonify(mock_list(listname))
 
-@app.route('/list/<listname>', methods=['POST'])
-@api_route
-def save_list(listname):
+def put(listname):
     print 'Saving "%s"' % request.get_json()
     return 'Saved "%s"' % listname
+
+@app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
+def list_request(listname):
+    return {'GET': get,
+            'PUT': put}.get(request.method)(listname)
 
 if __name__ == '__main__':
     app.run()
