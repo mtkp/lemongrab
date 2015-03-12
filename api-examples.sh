@@ -6,21 +6,37 @@ echo "-- get app --"
 curl -i $url
 echo ; echo
 
-echo "-- browser tries to get list --"
+echo "-- get app with list route --"
 curl -i \
   $url/list/get-a-list
 echo ; echo
 
-echo "-- app tries to get list --"
-curl -i \
-  -H "Accept: application/json" \
-  $url/api/v1/list/get-a-list
-echo ; echo
-
-echo "-- app posts to list --"
+echo "-- api: put empty list --"
 curl -i \
   -X PUT \
   -H "Content-Type: application/json" \
-  -d '{"items":["item 1"]}' \
-  $url/api/v1/list/post-to-a-list
+  -d '{"items":[]}' \
+  $url/api/v1/list/api-examples-list
+echo ; echo
+
+echo "-- api: put list --"
+curl -i \
+  -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{"items":[{"description":"item1","completed":false}]}' \
+  $url/api/v1/list/api-examples-list
+echo ; echo
+
+echo "-- api: get list --"
+curl -i \
+  -H "Accept: application/json" \
+  $url/api/v1/list/api-examples-list
+echo ; echo
+
+echo "-- api: put bad list --"
+curl -i \
+  -X PUT \
+  -H "Content-Type: application/json" \
+  -d '{"items":[{"description":"item1","completed":"not a boolean"}]}' \
+  $url/api/v1/list/api-examples-list
 echo ; echo
