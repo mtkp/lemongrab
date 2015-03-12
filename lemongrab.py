@@ -1,6 +1,31 @@
 # lemongrab.py
-from flask import Flask, json, render_template, request
+from collections import defaultdict
 
+from flask import Flask, json, render_template, request
+from jsonschema import validate, ValidationError
+
+# define list schema
+schema = {
+    'type': 'object',
+    'properties': {
+        'items': {
+            'type': 'array',
+            'items': {
+                'type': 'object',
+                'properties': {
+                    'description': {'type': 'string'},
+                    'completed': {'type': 'boolean'},
+                },
+            },
+        },
+    },
+    'required': ['items'],
+}
+
+# initialize dummy in-memory data store
+data_store = defaultdict(list)
+
+# start the server
 app = Flask(__name__)
 app.debug = True
 
@@ -19,23 +44,18 @@ def load_app_with_list(listname):
     """
     return load_app()
 
-def mock_list(name):
-    itm = lambda d, c: {'description': d, 'completed': c}
-    return {
-        'name': name,
-        'items': [
-            itm('Walk the dog first', True),
-            itm('Get haircut second', False),
-            itm('Groceries third', False),
-        ],
-    }
-
 def get(listname):
-    return json.jsonify(mock_list(listname))
+    lst = {'items': data_store[listname]}
+    return json.jsonify(lst)
 
 def put(listname):
-    print 'Saving "%s"' % request.get_json()
-    return 'Saved "%s"' % listname
+    lst = request.get_json()
+    try:
+        validate(lst, schema)
+        data_store[listname] = lst['items']
+        return 'Saved "{}"'.format(listname)
+    except ValidationError:
+        return "Invalid JSON schema", 403
 
 @app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
 def list_request(listname):
