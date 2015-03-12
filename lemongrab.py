@@ -16,6 +16,7 @@ schema = {
                     'description': {'type': 'string'},
                     'completed': {'type': 'boolean'},
                 },
+                'required': ['description', 'completed'],
             },
         },
     },
@@ -61,7 +62,7 @@ def put(listname):
         data_store[listname] = lst['items']
         return 'Saved "{}"'.format(listname)
     except ValidationError:
-        return "Invalid JSON schema", 403
+        return 'Invalid JSON schema', 403
 
 @app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
 def list_request(listname):
