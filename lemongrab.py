@@ -59,10 +59,11 @@ def put(listname):
     lst = request.get_json()
     try:
         validate(lst, schema)
-        data_store[listname] = lst['items']
-        return 'Saved "{}"'.format(listname)
     except ValidationError:
         return 'Invalid JSON schema', 403
+    data_store[listname] = lst['items']
+    return 'Saved "{}"'.format(listname)
+
 
 @app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])
 def list_request(listname):
