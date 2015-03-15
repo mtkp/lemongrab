@@ -1,21 +1,21 @@
-#lemongrab_tests.py
+# test_app.py
 from functools import partial
 import json
 import os
 import unittest
 from collections import defaultdict
 
-import lemongrab
+from lemongrab import app, data_store
 
 class LemongrabTestCase(unittest.TestCase):
 
     def setUp(self):
-        lemongrab.app.config['TESTING'] = True
-        self.app = lemongrab.app.test_client()
+        app.config['TESTING'] = True
+        self.app = app.test_client()
 
     def tearDown(self):
         # reset the "data_store"
-        lemongrab.data_store = defaultdict(list)
+        data_store = defaultdict(list)
 
     def test_load_app(self):
         resp = self.app.get('/')
@@ -108,6 +108,3 @@ class LemongrabTestCase(unittest.TestCase):
         self.assertEqual(403, resp.status_code)
         resp = put(data='{"items": [{"completed":true}]}')
         self.assertEqual(403, resp.status_code)
-
-if __name__ == '__main__':
-    unittest.main()
