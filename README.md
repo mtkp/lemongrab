@@ -3,10 +3,13 @@
 ## setup
 
 One time stuff:
-- Install or update `pip`: https://pip.pypa.io/en/latest/installing.html
-- Install `virtualenvwrapper` (including adding to your startup script): https://virtualenvwrapper.readthedocs.org/en/latest/install.html
-- Create a virtual environment for this project: `$ mkvirtualenv lemongrab`
-- Clone the `lemongrab` repository.
+
+1. Install or update `pip`: https://pip.pypa.io/en/latest/installing.html
+2. Install `virtualenvwrapper`: https://virtualenvwrapper.readthedocs.org/en/latest/install.html
+3. Add `virtualenvwrapper` to your startup scripts: https://virtualenvwrapper.readthedocs.org/en/latest/install.html#shell-startup-file
+4. Create a virtual environment for this project: `$ mkvirtualenv lemongrab`
+5. Clone the `lemongrab` repository.
+6. Get to work.
 
 Getting to work:
 ```sh
