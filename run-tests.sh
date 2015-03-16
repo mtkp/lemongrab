@@ -1,3 +1,3 @@
 #!/bin/sh -e
 
-python lemongrab_tests.py
+python -m unittest discover lemongrab 'test*.py'
