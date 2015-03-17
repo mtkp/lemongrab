@@ -34,22 +34,22 @@ TODO = (function(todoCode) {
     }
   
     task = $("<div />", {
-      "class" : constants.task,
-      "id" : constants.taskIdPrefix + id
+      "class": constants.task,
+      "id": constants.taskIdPrefix + id
     });
   
     $("<div />", {
-      "class" : constants.taskDescription,
+      "class": constants.taskDescription,
       "text": description
     }).appendTo(task);
   
     control = $("<div />", {
-      "class" : constants.control
+      "class": constants.control
     }).appendTo(task);
   
     $("<input />", {
-      "type" : "button",
-      "id" : constants.completeAction,
+      "type": "button",
+      "id": constants.completeAction,
       "value": constants.completeText,
       "click": function() {
         TODO.completeTask(id);
@@ -57,8 +57,8 @@ TODO = (function(todoCode) {
     }).appendTo(control);
   
     $("<input />", {
-      "type" : "button",
-      "id" : constants.removeAction,
+      "type": "button",
+      "id": constants.removeAction,
       "value": constants.removeText,
       "click": function() {
         TODO.deleteTask(id);
