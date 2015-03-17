@@ -23,30 +23,30 @@ TODO = (function(todoCode) {
 
   // The DOM is ready
   $(function() { /* We currently do not perform any setup */});
-  
+
   // Create the task html and add it to the To Do list
   var _createTask = function(id, description) {
     var parent = $(constants.incompleteList),
         task, control;
-  
+
     if (!typeof description === "string") {
       return;
     }
-  
+
     task = $("<div />", {
       "class" : constants.task,
       "id" : constants.taskIdPrefix + id
     });
-  
+
     $("<div />", {
       "class" : constants.taskDescription,
       "text": description
     }).appendTo(task);
-  
+
     control = $("<div />", {
       "class" : constants.control
     }).appendTo(task);
-  
+
     $("<input />", {
       "type" : "button",
       "id" : constants.completeAction,
@@ -55,7 +55,7 @@ TODO = (function(todoCode) {
         TODO.completeTask(id);
       }
     }).appendTo(control);
-  
+
     $("<input />", {
       "type" : "button",
       "id" : constants.removeAction,
@@ -69,11 +69,11 @@ TODO = (function(todoCode) {
   };
 
   // Retrieve a task from the To Do list and move it to
-  // the complete list. 
+  // the complete list.
   var _moveToComplete = function(id) {
     var newParent = $(constants.completeList),
         task = $("#" + constants.taskIdPrefix + id);
-   
+
     task.children("div.task-control").remove();
     task.remove();
     task.appendTo(newParent);
@@ -90,19 +90,19 @@ TODO = (function(todoCode) {
     addTask: function() {
       var input = $("#" + constants.taskInput + " :input"),
           id, description, tempData;
-  
+
       if (input.length !== 2) {
         return;
       }
-  
+
       description = input[0].value;
       if (!description) {
         alert(constants.noNameError);
         return;
       }
-  
+
       id = new Date().getTime();
-  
+
       _createTask(id, description);
 
       input[0].value = "";
@@ -120,4 +120,13 @@ TODO = (function(todoCode) {
   };
 
 }));
+
+$('#new-task-form').keypress(function(event){
+
+  if (event.keyCode == 10 || event.keyCode == 13) {
+    event.preventDefault();
+    $('#new-task-form .button').click();
+  }
+
+});
 
