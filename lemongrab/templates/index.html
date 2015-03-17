@@ -8,16 +8,34 @@
     <script type="text/javascript"
       src="{{ url_for('static', filename='js/libs/jquery.js') }}" defer>
     </script>
+    <script type="text/javascript"
+      src="{{ url_for('static', filename='js/todo.js') }}" defer>
+    </script>
   </head>
   <body>
     <header id="title">
       <h1>Lemongrab</h1>
       <p>An acceptable ToDo list app</p>
     </header>
-    <section id="task-prompt">
-      <h2>What is there to do?</h2>
-      <input id="new-task" type="text">
-    </section>
-    <section id="task-list"></section>
+
+    <div class="task-area" id="input-task">
+      <h3>Add a New Task</h3>
+      <form id="new-task-form">
+        <input type="text" placeholder="Task" />
+        <input type="button" value="Add Task" onclick="TODO.addTask();" />
+      </form>
+    </div>
+
+    <div id="task-lists">
+      <div class="task-area" id="incomplete">
+        <h3>To Do</h3>
+      </div>
+ 
+      <div class="task-area" id="complete">
+        <h3>Completed</h3>
+      </div>
+    </div>
+
   </body>
 </html>
+

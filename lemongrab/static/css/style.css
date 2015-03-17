@@ -7,3 +7,54 @@ h1 {
   font-family: Consolas, Menlo, Courier, monospace;
 }
 
+h3 {
+  margin-left: 5px;
+}
+
+.task-area {
+  width: 280px;
+  min-height: 200px;
+  float: left;
+  border: 1px solid black;
+  border-radius: 5px;
+  margin: 5px 10px 5px 10px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  margin-left: 0px;
+  margin-right: 10px;
+  background-color: grey;
+}
+
+.task-area input {
+  width: 230px;
+  margin: 5px 5px;
+  height: 30px;
+}
+ 
+.task-area textarea {
+  margin: 5px 5px;
+  height: 30px;
+}
+
+#task-lists {
+  float: left;
+  clear: left;
+}
+ 
+.task {
+  width: 230px;
+  margin: 5px;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: white;
+}
+ 
+.task-area input[type="button"] {
+  width: 100px;
+  margin: 5px;
+}
+ 
+.task > .task-body {
+  font-weight: bold;
+}
+ 
