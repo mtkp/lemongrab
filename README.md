@@ -20,3 +20,18 @@ $ # ... make some changes
 $ pip freeze > requirements.txt    # ensure dependencies are up to date
 $ deactivate                       # un-set the virtual environment
 ```
+
+## run the server
+
+```sh
+# assumes python packages installed
+$ ./run-server.sh             # starts the server listening on port 5000
+$ ./run-server.sh --gunicorn  # starts the server using gunicorn (single worker, port 5000)
+```
+
+## run tests
+
+To run the server unit tests:
+```sh
+$ ./run-tests.sh
+```
