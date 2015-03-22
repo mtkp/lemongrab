@@ -22,7 +22,19 @@ TODO = (function(todoCode) {
   };
 
   // The DOM is ready
-  $(function() { /* We currently do not perform any setup */});
+  $(function() { 
+
+    // Register event handler for enter keypress
+    $('#new-task-form').keypress(function(event){
+
+      if (event.keyCode == 10 || event.keyCode == 13) {
+        event.preventDefault();
+        $('#new-task-form .button').click();
+      }
+
+    });
+
+  });
 
   // Create the task html and add it to the To Do list
   var _createTask = function(id, description) {
@@ -121,12 +133,4 @@ TODO = (function(todoCode) {
 
 }));
 
-$('#new-task-form').keypress(function(event){
-
-  if (event.keyCode == 10 || event.keyCode == 13) {
-    event.preventDefault();
-    $('#new-task-form .button').click();
-  }
-
-});
 
