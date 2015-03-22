@@ -96,40 +96,44 @@ TODO = (function(todoCode) {
     $("#" + constants.taskIdPrefix + id).remove();
   };
 
-  return {
+  // Add a task to the To Do list
+  var addTask = function() {
+    var input = $("#" + constants.taskInput + " :input"),
+        id, description, tempData;
 
-    // Add a task to the To Do list
-    addTask: function() {
-      var input = $("#" + constants.taskInput + " :input"),
-          id, description, tempData;
-
-      if (input.length !== 2) {
-        return;
-      }
-
-      description = input[0].value;
-      if (!description) {
-        alert(constants.noNameError);
-        return;
-      }
-
-      id = new Date().getTime();
-
-      _createTask(id, description);
-
-      input[0].value = "";
-    },
-
-    // Complete a task
-    completeTask: function(id) {
-      _moveToComplete(id);
-    },
-
-    // Remove a task
-    deleteTask: function(id) {
-      _removeTask(id);
+    if (input.length !== 2) {
+      return;
     }
+
+    description = input[0].value;
+    if (!description) {
+      alert(constants.noNameError);
+      return;
+    }
+
+  id = new Date().getTime();
+
+    _createTask(id, description);
+
+    input[0].value = "";
   };
+
+  // Complete a task
+  var completeTask = function(id) {
+    _moveToComplete(id);
+  };
+
+  // Remove a task
+  var deleteTask = function(id) {
+    _removeTask(id);
+  };
+
+  // Return the public API
+  return {
+    addTask: addTask,
+    completeTask: completeTask,
+    deleteTask: deleteTask
+  }
 
 }));
 
