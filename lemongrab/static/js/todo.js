@@ -1,10 +1,10 @@
-'use-strict';
-
 TODO = (function(todoCode) {
 
   return todoCode(window.jQuery, window, document);
 
 }(function($, window, document) {
+  "use strict";
+
   // CSS selectors values and other global constants
   var constants = {
     task: "task",
