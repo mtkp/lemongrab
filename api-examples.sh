@@ -11,6 +11,12 @@ curl -i \
   $url/list/get-a-list
 echo ; echo
 
+echo "-- api: get mock list --"
+curl -i \
+  -H "Accept: application/json" \
+  $url/api/v1/list/api-examples-list?mock=true
+echo ; echo
+
 echo "-- api: put empty list --"
 curl -i \
   -X PUT \
