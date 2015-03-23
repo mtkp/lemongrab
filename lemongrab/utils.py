@@ -26,7 +26,7 @@ def validate_response(schema):
             o = f(*args, **kwargs)
             if is_valid(o, schema):
                 return o
-            return invalid_schema
+            return bad_schema_error
         return wrapped_f
     return wrapped_schema
 
@@ -36,6 +36,6 @@ def validate_request(schema):
         def wrapped_f(*args, **kwargs):
             if is_valid(request.get_json(cache=True), schema):
                 return f(*args, **kwargs)
-            return invalid_schema
+            return bad_schema_error
         return wrapped_f
     return wrapped_schema
