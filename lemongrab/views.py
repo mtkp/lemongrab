@@ -1,8 +1,9 @@
 # views.py
 from flask import json, render_template, request
-from jsonschema import validate, ValidationError
 
 from lemongrab import app, data_store, models
+from lemongrab.utils import jsonify_response, validate_request, \
+                            validate_response
 
 @app.route('/')
 def load_app():
@@ -16,18 +17,19 @@ def load_app_with_list(listname):
     """
     return load_app()
 
+@jsonify_response
+@validate_response(models.schema)
 def get(listname):
     """Get a list by listname."""
-    lst = {'items': data_store[listname]}
-    return json.jsonify(lst)
+    if request.args.get('mock', '') == 'true':
+        return models.mock_list
+    else:
+        return {'items': data_store[listname]}
 
+@validate_request(models.schema)
 def put(listname):
     """Save a list by listname."""
     lst = request.get_json()
-    try:
-        validate(lst, models.schema)
-    except ValidationError:
-        return 'Invalid JSON schema', 403
     data_store[listname] = lst['items']
     return 'Saved "{}"'.format(listname)
 
