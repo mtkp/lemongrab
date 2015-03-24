@@ -5,22 +5,6 @@ TODO = (function(todoCode) {
 }(function($, window, document) {
   "use strict";
 
-  // CSS selectors values and other global constants
-  var constants = {
-    task: "task",
-    taskDescription: "task-body",
-    control: "task-control",
-    completeAction: "complete-task",
-    completeText: "Complete",
-    removeAction: "delete-task",
-    removeText: "Remove",
-    taskIdPrefix: "task-",
-    taskInput: "new-task-form",
-    noNameError: "Name cannot be empty",
-    incompleteList: "#incomplete",
-    completeList: "#complete"
-  };
-
   // The DOM is ready
   $(function() { 
 
@@ -36,70 +20,52 @@ TODO = (function(todoCode) {
 
   });
 
-  // Create the task html and add it to the To Do list
+  // Create the task and add it to the To Do list
   var _createTask = function(id, description) {
-    var parent = $(constants.incompleteList),
-        task, control;
+    var parent = $("#task-list"),
+        template, context;
 
     if (!typeof description === "string") {
       return;
     }
 
-    task = $("<div />", {
-      "class": constants.task,
-      "id": constants.taskIdPrefix + id
-    });
-
-    $("<div />", {
-      "class": constants.taskDescription,
-      "text": description
-    }).appendTo(task);
-
-    control = $("<div />", {
-      "class": constants.control
-    }).appendTo(task);
-
-    $("<input />", {
-      "type": "button",
-      "id": constants.completeAction,
-      "value": constants.completeText,
-      "click": function() {
-        TODO.completeTask(id);
-      }
-    }).appendTo(control);
-
-    $("<input />", {
-      "type": "button",
-      "id": constants.removeAction,
-      "value": constants.removeText,
-      "click": function() {
-        TODO.deleteTask(id);
-      }
-    }).appendTo(control);
-
-    task.appendTo(parent);
+    template = Handlebars.compile($('#task-template').html());
+    context = {
+      "id": id,
+      "description": description
+    }
+    parent.append(template(context));
   };
 
-  // Retrieve a task from the To Do list and move it to
-  // the complete list.
-  var _moveToComplete = function(id) {
-    var newParent = $(constants.completeList),
-        task = $("#" + constants.taskIdPrefix + id);
+  // Mark task as completed
+  var _completeTask = function(id) {
+    var task = $("#task-" + id);
 
-    task.children("div.task-control").remove();
-    task.remove();
-    task.appendTo(newParent);
+    task.children(".task-incomplete").attr("class", "task-complete").
+      text("Completed");
+    task.find("#toggle").attr("onclick", "TODO.redoTask(" + id + ")").
+      attr("value", "Redo");
+  }
+
+  // Redo a task
+  var _redoTask = function(id) {
+    var task = $("#task-" + id); 
+
+    task.children(".task-complete").attr("class", "task-incomplete").
+      text("Not completed");
+    task.find("#toggle").attr("onclick", "TODO.completeTask(" + id + ")").
+      attr("value", "Complete");
   }
 
   // Remove task from the To Do list
   var _removeTask = function(id) {
-    $("#" + constants.taskIdPrefix + id).remove();
+    $("#task-" + id).remove();
   };
 
   // Add a task to the To Do list
   var addTask = function() {
-    var input = $("#" + constants.taskInput + " :input"),
-        id, description, tempData;
+    var input = $("#new-task-form :input"),
+        id, description;
 
     if (input.length !== 2) {
       return;
@@ -107,11 +73,11 @@ TODO = (function(todoCode) {
 
     description = input[0].value;
     if (!description) {
-      alert(constants.noNameError);
+      alert("You must specify a description");
       return;
     }
-
-  id = new Date().getTime();
+    
+    id = new Date().getTime();
 
     _createTask(id, description);
 
@@ -120,7 +86,12 @@ TODO = (function(todoCode) {
 
   // Complete a task
   var completeTask = function(id) {
-    _moveToComplete(id);
+    _completeTask(id);
+  };
+
+  // Redo a task
+  var redoTask = function(id) {
+    _redoTask(id);
   };
 
   // Remove a task
@@ -132,9 +103,8 @@ TODO = (function(todoCode) {
   return {
     addTask: addTask,
     completeTask: completeTask,
+    redoTask: redoTask,
     deleteTask: deleteTask
   }
 
 }));
-
-

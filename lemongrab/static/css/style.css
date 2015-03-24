@@ -36,7 +36,7 @@ h3 {
   height: 30px;
 }
 
-#task-lists {
+#task-list {
   float: left;
   clear: left;
 }
@@ -58,3 +58,10 @@ h3 {
   font-weight: bold;
 }
  
+.task > .task-incomplete {
+  color: red;
+}
+
+.task > .task-complete {
+  color: green;
+}
