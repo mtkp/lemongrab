@@ -5,7 +5,7 @@ import os
 import unittest
 from collections import defaultdict
 
-from lemongrab import app, data_store
+from lemongrab import app, data_store, models
 
 class LemongrabTestCase(unittest.TestCase):
 
@@ -26,6 +26,12 @@ class LemongrabTestCase(unittest.TestCase):
         resp = self.app.get('/list/test-list')
         self.assertEqual('text/html', resp.mimetype)
         self.assertEqual(200, resp.status_code)
+
+    def test_get_mock_list(self):
+        resp = self.app.get('/api/v1/list/test-list?mock=true')
+        self.assertEqual('application/json', resp.mimetype)
+        self.assertEqual(200, resp.status_code)
+        self.assertEqual(models.mock_list, json.loads(resp.data))
 
     def test_get_list_that_is_not_yet_saved(self):
         resp = self.app.get('/api/v1/list/test-list')

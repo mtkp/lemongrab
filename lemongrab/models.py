@@ -18,3 +18,24 @@ schema = {
     },
     'required': ['items'],
 }
+
+mock_list = {
+    'items': [
+        {
+            'description': 'pick recipe',
+            'completed': True,
+        },
+        {
+            'description': 'get the groceries',
+            'completed': True,
+        },
+        {
+            'description': 'cook dinner',
+            'completed': False,
+        },
+        {
+            'description': 'eat dinner',
+            'completed': False,
+        },
+    ]
+}
