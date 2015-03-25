@@ -28,7 +28,7 @@ TODO = (function(todoCode) {
 
   // Create the task and add it to the To Do list
   var _createTask = function(id, description) {
-    var parent  =   $("#task-list"),
+    var parent,
         template,
         context;
 
@@ -36,17 +36,20 @@ TODO = (function(todoCode) {
       return;
     }
 
+    parent = $("#task-list");
+
     template = Handlebars.compile($('#task-template').html());
     context = {
       "id": id,
       "description": description
     }
+
     parent.append(template(context));
   };
 
   // Mark task as completed
   var _completeTask = function(id) {
-    var task  = $("#task-" + id);
+    var task = $("#task-" + id);
 
     task.children(".task-incomplete").attr("class", "task-complete").
       text("Completed");
@@ -56,7 +59,7 @@ TODO = (function(todoCode) {
 
   // Redo a task
   var _redoTask = function(id) {
-    var task  = $("#task-" + id);
+    var task = $("#task-" + id);
 
     task.children(".task-complete").attr("class", "task-incomplete").
       text("Not completed");
@@ -71,7 +74,7 @@ TODO = (function(todoCode) {
 
   // Add a task to the To Do list
   var addTask = function() {
-    var input = $("#new-task-form :input"),
+    var input         = $("#new-task-form :input"),
         id,
         description;
 
