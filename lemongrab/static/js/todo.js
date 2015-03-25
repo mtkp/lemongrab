@@ -6,7 +6,7 @@ TODO = (function(todoCode) {
   "use strict";
 
   // The DOM is ready
-  $(function() { 
+  $(function() {
 
     // Register event handler for enter keypress
     $('#new-task-form').keypress(function(event){
@@ -49,7 +49,7 @@ TODO = (function(todoCode) {
 
   // Redo a task
   var _redoTask = function(id) {
-    var task = $("#task-" + id); 
+    var task = $("#task-" + id);
 
     task.children(".task-complete").attr("class", "task-incomplete").
       text("Not completed");
@@ -76,7 +76,7 @@ TODO = (function(todoCode) {
       alert("You must specify a description");
       return;
     }
-    
+
     id = new Date().getTime();
 
     _createTask(id, description);

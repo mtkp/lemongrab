@@ -30,7 +30,7 @@ h3 {
   margin: 5px 5px;
   height: 30px;
 }
- 
+
 .task-area textarea {
   margin: 5px 5px;
   height: 30px;
@@ -40,7 +40,7 @@ h3 {
   float: left;
   clear: left;
 }
- 
+
 .task {
   width: 230px;
   margin: 5px;
@@ -48,16 +48,16 @@ h3 {
   border-radius: 5px;
   background-color: white;
 }
- 
+
 .task-area input[type="button"] {
   width: 100px;
   margin: 5px;
 }
- 
+
 .task > .task-body {
   font-weight: bold;
 }
- 
+
 .task > .task-incomplete {
   color: red;
 }
