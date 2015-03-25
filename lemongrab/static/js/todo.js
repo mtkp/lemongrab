@@ -5,10 +5,10 @@ TODO = (function(todoCode) {
 }(function($, window, document) {
   "use strict";
 
-  // The DOM is ready
-  $(function() {
+  // Bind events to the DOM
+  var _bind_events = function() {
 
-    // Register event handler for enter keypress
+    // Register event handler for 'enter' keypress
     $('#new-task-form').keypress(function(event){
 
       if (event.keyCode == 10 || event.keyCode == 13) {
@@ -18,12 +18,19 @@ TODO = (function(todoCode) {
 
     });
 
+  }
+
+  // The DOM is ready
+  $(function() {
+    _bind_events();
+
   });
 
   // Create the task and add it to the To Do list
   var _createTask = function(id, description) {
-    var parent = $("#task-list"),
-        template, context;
+    var parent  =   $("#task-list"),
+        template,
+        context;
 
     if (!typeof description === "string") {
       return;
@@ -39,7 +46,7 @@ TODO = (function(todoCode) {
 
   // Mark task as completed
   var _completeTask = function(id) {
-    var task = $("#task-" + id);
+    var task  = $("#task-" + id);
 
     task.children(".task-incomplete").attr("class", "task-complete").
       text("Completed");
@@ -49,7 +56,7 @@ TODO = (function(todoCode) {
 
   // Redo a task
   var _redoTask = function(id) {
-    var task = $("#task-" + id);
+    var task  = $("#task-" + id);
 
     task.children(".task-complete").attr("class", "task-incomplete").
       text("Not completed");
@@ -65,7 +72,8 @@ TODO = (function(todoCode) {
   // Add a task to the To Do list
   var addTask = function() {
     var input = $("#new-task-form :input"),
-        id, description;
+        id,
+        description;
 
     if (input.length !== 2) {
       return;
