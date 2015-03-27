@@ -1,15 +1,13 @@
 // This file extends the View namespace and manages the PC browser web view
-
-window.TODO = window.TODO || {};
-
 (function(namespace, $, window, document) {
   "use strict";
 
   // Create the task and add it to the To Do list
-  namespace.createTask = function(id, description) {
+  var createTask = function(id, description) {
     var parent,
-        template,
-        context;
+        context,
+        newTask,
+        template;
 
     if (!typeof description === "string") {
       return;
@@ -17,39 +15,59 @@ window.TODO = window.TODO || {};
 
     parent = $("#task-list");
 
+    // Fill the template and create a DOM object
     template = Handlebars.compile($('#task-template').html());
     context = {
       "id": id,
       "description": description
     }
+    newTask = $(template(context));
 
-    parent.append(template(context));
+    // Attach events to the buttons
+    newTask.find("#toggle").click(function() {
+      TODO.Controller.completeTask(id);
+    });
+    newTask.find("#delete").click(function() {
+      TODO.Controller.deleteTask(id);
+    });
+
+    parent.append(newTask);
   };
 
   // Mark task as completed
-  namespace.completeTask = function(id) {
+  var completeTask = function(id) {
     var task = $("#task-" + id);
 
     task.children(".task-incomplete").attr("class", "task-complete").
       text("Completed");
-    task.find("#toggle").attr("onclick", "TODO.redoTask(" + id + ")").
-      attr("value", "Redo");
+    task.find("#toggle").attr("value", "Redo").
+      click(function() {
+        TODO.Controller.redoTask(id);
+      });
   };
 
-  // Redo a task
-  namespace.redoTask = function(id) {
+  // Toggle a tasks 'completed' state back off
+  var redoTask = function(id) {
     var task = $("#task-" + id);
 
     task.children(".task-complete").attr("class", "task-incomplete").
       text("Not completed");
-    task.find("#toggle").attr("onclick", "TODO.completeTask(" + id + ")").
-      attr("value", "Complete");
+    task.find("#toggle").attr("value", "Complete").
+      click(function() {
+        TODO.Controller.completeTask(id);
+      });
   };
 
   // Remove task from the To Do list
-  namespace.removeTask = function(id) {
+  var removeTask = function(id) {
     $("#task-" + id).remove();
   };
 
+  // Define public API
+  namespace.createTask = createTask;
+  namespace.completeTask = completeTask;
+  namespace.redoTask = redoTask;
+  namespace.removeTask = removeTask;
 
-}(window.namespace(window.TODO, "View"), window.jQuery, window, document));
+
+}(window.namespace("View"), window.jQuery, window, document));

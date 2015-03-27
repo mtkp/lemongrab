@@ -1,14 +1,11 @@
 // This file extends the Controller namespace and handles all incoming
 // actions from the user
-
-window.TODO = window.TODO || {};
-
 (function(namespace, $, window, document) {
   "use strict";
 
   // The DOM is ready
   $(function() {
-    namespace.bindEvents();
+    bindEvents();
   });
 
   // Add a task to the To Do list
@@ -35,21 +32,21 @@ window.TODO = window.TODO || {};
   };
 
   // Complete a task
-  namespace.completeTask = function(id) {
+  var completeTask = function(id) {
     TODO.View.completeTask(id);
   };
 
   // Redo a task
-  namespace.redoTask = function(id) {
+  var redoTask = function(id) {
     TODO.View.redoTask(id);
   };
 
   // Remove a task
-  namespace.deleteTask = function(id) {
+  var deleteTask = function(id) {
     TODO.View.removeTask(id);
   };
 
-  namespace.bindEvents = function() {
+  var bindEvents = function() {
 
     // 'Enter' keypress to submit new task
     $('#new-task-form').keypress(function(event) {
@@ -65,6 +62,12 @@ window.TODO = window.TODO || {};
       return false;
     });
 
+    // Define public API
+    namespace.addTask = addTask;
+    namespace.completeTask = completeTask;
+    namespace.redoTask = redoTask;
+    namespace.deleteTask = deleteTask;
+
   };
 
-}(window.namespace(window.TODO, "Controller"), window.jQuery, window, document));
+}(window.namespace("Controller"), window.jQuery, window, document));
