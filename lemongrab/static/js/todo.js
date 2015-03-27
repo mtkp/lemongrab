@@ -5,6 +5,25 @@ TODO = (function(todoCode) {
 }(function($, window, document) {
   "use strict";
 
+  // Check the global object for a namespace. If it exists, return
+  // it to be extended. If not, create a new one, recursively.
+  // Example format: TODO.Model.Server
+  var namespace = function(name) {
+    var fields  = name.split("."),
+        scope   = this,
+        i,
+        len;
+
+    for (i = 0, len = fields.length; i < len; i++) {
+      if (!scope[fields[i]]) {
+        scope[fields[i]] = {};
+      }
+      scope = scope[fields[i]];
+    }
+
+    return scope;
+  }
+
   // Bind events to the DOM
   var _bind_events = function() {
 
@@ -26,52 +45,6 @@ TODO = (function(todoCode) {
 
   });
 
-  // Create the task and add it to the To Do list
-  var _createTask = function(id, description) {
-    var parent,
-        template,
-        context;
-
-    if (!typeof description === "string") {
-      return;
-    }
-
-    parent = $("#task-list");
-
-    template = Handlebars.compile($('#task-template').html());
-    context = {
-      "id": id,
-      "description": description
-    }
-
-    parent.append(template(context));
-  };
-
-  // Mark task as completed
-  var _completeTask = function(id) {
-    var task = $("#task-" + id);
-
-    task.children(".task-incomplete").attr("class", "task-complete").
-      text("Completed");
-    task.find("#toggle").attr("onclick", "TODO.redoTask(" + id + ")").
-      attr("value", "Redo");
-  }
-
-  // Redo a task
-  var _redoTask = function(id) {
-    var task = $("#task-" + id);
-
-    task.children(".task-complete").attr("class", "task-incomplete").
-      text("Not completed");
-    task.find("#toggle").attr("onclick", "TODO.completeTask(" + id + ")").
-      attr("value", "Complete");
-  }
-
-  // Remove task from the To Do list
-  var _removeTask = function(id) {
-    $("#task-" + id).remove();
-  };
-
   // Add a task to the To Do list
   var addTask = function() {
     var input         = $("#new-task-form :input"),
@@ -90,28 +63,29 @@ TODO = (function(todoCode) {
 
     id = new Date().getTime();
 
-    _createTask(id, description);
+    this.View.createTask(id, description);
 
     input[0].value = "";
   };
 
   // Complete a task
   var completeTask = function(id) {
-    _completeTask(id);
+    this.View.completeTask(id);
   };
 
   // Redo a task
   var redoTask = function(id) {
-    _redoTask(id);
+    this.View.redoTask(id);
   };
 
   // Remove a task
   var deleteTask = function(id) {
-    _removeTask(id);
+    this.View.removeTask(id);
   };
 
   // Return the public API
   return {
+    namespace: namespace, // Used by js, not part of API
     addTask: addTask,
     completeTask: completeTask,
     redoTask: redoTask,
