@@ -17,6 +17,9 @@
     <script type="text/javascript"
       src="<= url_for('static', filename='js/view/webview.js') =>" defer>
     </script>
+    <script type="text/javascript"
+      src="<= url_for('static', filename='js/controller/controller.js') =>" defer>
+    </script>
   </head>
   <body>
     <header id="title">
@@ -28,8 +31,7 @@
       <h3>Add a New Task</h3>
       <form id="new-task-form">
         <input type="text" placeholder="Task">
-        <input type="button" class="button" value="Add Task"
-        onclick="TODO.addTask();">
+        <input type="submit" value="Add Task">
       </form>
     </div>
 
@@ -44,9 +46,9 @@
         <div class="task-incomplete">Not completed</div>
         <div class="task-control">
           <input type="button" id="toggle" value="Complete"
-            onclick="TODO.completeTask({{id}})">
+            onclick="TODO.Controller.completeTask({{id}})">
           <input type="button" id="delete" value="Remove"
-            onclick="TODO.deleteTask({{id}})">
+            onclick="TODO.Controller.deleteTask({{id}})">
         </div>
       </div>
     </script>

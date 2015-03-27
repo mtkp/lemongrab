@@ -1,5 +1,7 @@
 // This file extends the View namespace and manages the PC browser web view
 
+window.TODO = window.TODO || {};
+
 (function(namespace, $, window, document) {
   "use strict";
 
@@ -50,4 +52,4 @@
   };
 
 
-}(TODO.namespace("View"), window.jQuery, window, document));
+}(window.namespace(window.TODO, "View"), window.jQuery, window, document));
