@@ -62,12 +62,12 @@
       return false;
     });
 
-    // Define public API
-    namespace.addTask = addTask;
-    namespace.completeTask = completeTask;
-    namespace.redoTask = redoTask;
-    namespace.deleteTask = deleteTask;
-
   };
+
+  // Define public API
+  namespace.addTask = addTask;
+  namespace.completeTask = completeTask;
+  namespace.redoTask = redoTask;
+  namespace.deleteTask = deleteTask;
 
 }(window.namespace("Controller"), window.jQuery, window, document));
