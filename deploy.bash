@@ -6,14 +6,10 @@ if hash eb 2>/dev/null ; then
 else
   echo "Need to install Elastic Beanstalk CLI to deploy."
   echo "--> $ sudo pip install awsebcli"
-  # you will also need to initialize eb and app environment
-  # for lemongrab
-  # (application name is lemongrab, region is us-west-2)
-  # (create lemongrab-dev)
+  # you will also need to set aws keys and initialize eb once installed
   #
-  # for example:
   # $ eb init     # init
-  # $ eb create   # create an environment
+  # (application name is lemongrab, region is us-west-2)
   exit 1
 fi
 
@@ -23,6 +19,9 @@ eb list
 
 # try to use lemongrab-dev
 eb use lemongrab-dev
+
+# try to checkout master
+git checkout master
 
 # deploy the latest
 eb deploy

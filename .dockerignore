@@ -1,8 +1,9 @@
 # entire git history
 .git
 
-# docker helper script
+# helper scripts
 run-dockerized-server.bash
+deploy.bash
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
