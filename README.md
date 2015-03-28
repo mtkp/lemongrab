@@ -45,6 +45,7 @@ One time stuff:
 ### deploying
 
 ```sh
+# deploy the latest commit on the master branch
 $ ./deploy.sh
 ```
 
