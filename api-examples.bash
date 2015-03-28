@@ -1,20 +1,20 @@
-#!/bin/sh -e
+#!/bin/bash -e -x
 
 url=http://localhost:5000
 
 echo "-- get app --"
-curl -i $url
+curl -i "$url"
 echo ; echo
 
 echo "-- get app with list route --"
 curl -i \
-  $url/list/get-a-list
+  "$url"/list/get-a-list
 echo ; echo
 
 echo "-- api: get mock list --"
 curl -i \
   -H "Accept: application/json" \
-  $url/api/v1/list/api-examples-list?mock=true
+  "$url"/api/v1/list/api-examples-list?mock=true
 echo ; echo
 
 echo "-- api: put empty list --"

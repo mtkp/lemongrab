@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 
 if   [ "$1" = "--help" ] ; then
   echo "Usage: run-server [--gunicorn]"
