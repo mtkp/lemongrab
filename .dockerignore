@@ -1,2 +1,10 @@
+# entire git history
 .git
-start-dockerized-app.sh
+
+# docker helper script
+run-dockerized-server.bash
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
