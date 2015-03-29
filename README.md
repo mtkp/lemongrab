@@ -18,20 +18,20 @@ $ workon lemongrab                 # set the virtual environment
 $ pip install -r requirements.txt  # install latest python dependencies
 $ # ... make some changes
 $ pip freeze > requirements.txt    # ensure dependencies are up to date
-$ deactivate                       # un-set the virtual environment
+$ deactivate                       # when you're done, un-set the environment
 ```
 
 ### run the development server
 
 ```sh
-$ ./run-server.sh             # starts the server listening on port 5000
+$ ./run-server.bash             # starts the server listening on port 5000
 ```
 
 ### run tests
 
 To run the server unit tests:
 ```sh
-$ ./run-tests.sh
+$ ./run-tests.bash
 ```
 
 ## deployment
@@ -46,7 +46,7 @@ One time stuff:
 
 ```sh
 # deploy the latest commit on the master branch
-$ ./deploy.sh
+$ ./deploy.bash
 ```
 
 You can also use `eb deploy` to force deployment of the latest git commit of the current working branch.
