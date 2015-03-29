@@ -1,0 +1,11 @@
+# entire git history
+.git
+
+# helper scripts
+run-dockerized-server.bash
+deploy.bash
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
