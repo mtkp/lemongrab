@@ -9,11 +9,11 @@
   });
 
   // Add a task to the To Do list
-  var addTask = function() {
+  var createTask = function() {
     var input         = $("#new-task-form :input"),
-        id,
         description;
 
+    // Expect only description as input
     if (input.length !== 2) {
       return;
     }
@@ -24,26 +24,24 @@
       return;
     }
 
-    id = new Date().getTime();
-
-    TODO.View.createTask(id, description);
+    TODO.Model.createTask(description);
 
     input[0].value = "";
   };
 
   // Complete a task
   var completeTask = function(id) {
-    TODO.View.completeTask(id);
+    TODO.Model.completeTask(id);
   };
 
-  // Redo a task
-  var redoTask = function(id) {
-    TODO.View.redoTask(id);
+  // Undo a task
+  var undoTask = function(id) {
+    TODO.Model.undoTask(id);
   };
 
   // Remove a task
   var deleteTask = function(id) {
-    TODO.View.removeTask(id);
+    TODO.Model.deleteTask(id);
   };
 
   var bindEvents = function() {
@@ -58,16 +56,16 @@
 
     // Submit to create a new task
     $('#new-task-form').submit(function(description, event) {
-      addTask(description);
+      createTask(description);
       return false;
     });
 
   };
 
   // Define public API
-  namespace.addTask = addTask;
+  namespace.createTask = createTask;
   namespace.completeTask = completeTask;
-  namespace.redoTask = redoTask;
+  namespace.undoTask = undoTask;
   namespace.deleteTask = deleteTask;
 
 }(window.namespace("Controller"), window.jQuery, window, document));
