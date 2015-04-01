@@ -3,8 +3,10 @@ from collections import defaultdict
 
 from flask import Flask
 
+import lemongrab.models
+
 # initialize dummy in-memory data store
-data_store = defaultdict(list)
+data_store = defaultdict(lemongrab.models.default_list)
 
 class LemongrabFlask(Flask):
     jinja_options = Flask.jinja_options.copy()
