@@ -105,7 +105,7 @@ class LemongrabTestCase(unittest.TestCase):
             content_type='application/json',
         )
         lst = {
-            'description':'a list',
+            'description': 'a list',
             'items': [{'description': 'put_replace', 'completed': False}],
         }
         put(data=json.dumps(lst))
@@ -122,11 +122,11 @@ class LemongrabTestCase(unittest.TestCase):
         )
         resp = put(data='{}')
         self.assertEqual(403, resp.status_code)
-        resp = put(data='{"item": []}')
+        resp = put(data='{"item":[]}')
         self.assertEqual(403, resp.status_code)
-        resp = put(data='{"items": [{"description":"test"}]}')
+        resp = put(data='{"items":[{"description":"test"}]}')
         self.assertEqual(403, resp.status_code)
-        resp = put(data='{"items": [{"completed":true}]}')
+        resp = put(data='{"items":[{"completed":true}]}')
         self.assertEqual(403, resp.status_code)
-        resp = put(data='{"items": [{"description":"foo","completed":true}]}')
+        resp = put(data='{"items":[{"description":"foo","completed":true}]}')
         self.assertEqual(403, resp.status_code)
