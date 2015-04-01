@@ -24,13 +24,12 @@ def get(listname):
     if request.args.get('mock', '') == 'true':
         return models.mock_list
     else:
-        return {'items': data_store[listname]}
+        return data_store[listname]
 
 @validate_request(models.schema)
 def put(listname):
     """Save a list by listname."""
-    lst = request.get_json()
-    data_store[listname] = lst['items']
+    data_store[listname] = request.get_json()
     return 'Saved "{}"'.format(listname)
 
 @app.route('/api/v1/list/<listname>', methods=['GET', 'PUT'])

@@ -17,12 +17,11 @@ curl -i \
   "$url/api/v1/list/api-examples-list?mock=true"
 echo ; echo
 
-
 echo "-- api: put empty list --"
 curl -i \
   -X PUT \
   -H "Content-Type: application/json" \
-  -d '{"items":[]}' \
+  -d '{"description":"my empty list","items":[]}' \
   "$url/api/v1/list/api-examples-list"
 echo ; echo
 
@@ -30,7 +29,8 @@ echo "-- api: put list --"
 curl -i \
   -X PUT \
   -H "Content-Type: application/json" \
-  -d '{"items":[{"description":"item1","completed":false}]}' \
+  -d '{"description":"a list",
+       "items":[{"description":"item1","completed":false}]}' \
   "$url/api/v1/list/api-examples-list"
 echo ; echo
 
@@ -44,6 +44,7 @@ echo "-- api: put bad list --"
 curl -i \
   -X PUT \
   -H "Content-Type: application/json" \
-  -d '{"items":[{"description":"item1","completed":"not a boolean"}]}' \
+  -d '{"description":"bad list",
+       "items":[{"description":"item1","completed":"not a boolean"}]}' \
   "$url/api/v1/list/api-examples-list"
 echo ; echo

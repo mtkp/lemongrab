@@ -4,6 +4,7 @@
 schema = {
     'type': 'object',
     'properties': {
+        'description': {'type': 'string'},
         'items': {
             'type': 'array',
             'items': {
@@ -16,10 +17,17 @@ schema = {
             },
         },
     },
-    'required': ['items'],
+    'required': ['description', 'items'],
 }
 
+def default_list():
+    return {
+        'description': '',
+        'items': [],
+    }
+
 mock_list = {
+    'description': 'Stuff to do for dinner',
     'items': [
         {
             'description': 'pick recipe',
